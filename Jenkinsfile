@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git url: 'https://github.com/tpqoflsh/html-template.git', branch: 'main'
+        git url: 'https://github.com/tpqoflsh/html-template.git', branch: 'master'
       }
     }
     stage('Build & Push Docker Image') {
