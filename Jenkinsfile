@@ -9,16 +9,15 @@ pipeline {
   }
   stages {
     stage('Checkout') {
-      agent { label 'built-in' }
       steps {
         git url: 'https://github.com/tpqoflsh/html-template.git', branch: 'master'
       }
     }
     stage('Build & Push Docker Image') {
-      agent { label 'built-in' }
       steps {
         withCredentials([usernamePassword(credentialsId: 'jdp-acr', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS')]) {
             sh """
+              echo 'PATH=$PATH'
               which az || echo 'az not found'
               az acr login --name $ACR_NAME
               az acr build --registry $ACR_NAME --image $IMAGE_NAME:$IMAGE_TAG .
@@ -33,7 +32,6 @@ pipeline {
       }
     }
     stage('Update YAML & Push') {
-      agent { label 'built-in' }
       steps {
         withCredentials([
             usernamePassword(credentialsId: 'jdp-acr', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS'),
