@@ -1,0 +1,45 @@
+pipeline {
+  agent any
+   
+  environment {
+    ACR_NAME = "jdptest.azurecr.io"
+    IMAGE_NAME = "jdp-web-app"
+    IMAGE_TAG = "v${env.BUILD_NUMBER}"
+    DEPLOY_PATH = "deploy/deployment.yaml"
+  }
+  stages {
+    stage('Checkout') {
+      steps {
+        git url: 'https://github.com/tpqoflsh/html-template.git', branch: 'main'
+      }
+    }
+    stage('Build & Push Docker Image') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'jdp-acr', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS')]) {
+            sh """
+              docker build -t $ACR_NAME/$IMAGE_NAME:$IMAGE_TAG .
+              echo $ACR_PASSWORD | docker login $ACR_NAME -u $ACR_USERNAME --password-stdin
+              docker push $ACR_NAME/$IMAGE_NAME:$IMAGE_TAG
+            """
+        }
+      }
+    }
+    stage('Update YAML & Push') {
+      steps {
+        withCredentials([
+            usernamePassword(credentialsId: 'jdp-acr', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS'),
+            usernamePassword(credentialsId: 'jdp-github', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')
+        ]) {
+            sh """
+              sed -i "s|image: .*|image: $ACR_NAME/$IMAGE_NAME:$IMAGE_TAG|g" $DEPLOY_PATH
+              git config user.name "$GIT_USER"
+              git config user.email "jenkins@ci.local"
+              git add $DEPLOY_PATH
+              git commit -m "update image to $IMAGE_TAG"
+              git push https://$GIT_USER:$GIT_PASS@github.com/tpqoflsh/html-template.gi main
+            """
+        }
+      }
+    }
+  }
+}
