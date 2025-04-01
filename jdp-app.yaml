@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jdp-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jdp-web
+  template:
+    metadata:
+      labels:
+        app: jdp-web
+    spec:
+      containers:
+      - name: jdp-web
+        image: jdptest.azurecr.io/jdp-web-img:v2
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: jdp-app-secret
