@@ -17,7 +17,6 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'jdp-acr', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS')]) {
             sh """
-              curl -sL https://aka.ms/InstallAzureCLIDeb | bash
               az acr login --name $ACR_NAME
               az acr build --registry $ACR_NAME --image $IMAGE_NAME:$IMAGE_TAG .
             """
