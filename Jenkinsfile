@@ -9,13 +9,13 @@ pipeline {
   }
   stages {
     stage('Checkout') {
-      agent { label 'jenkins-controller' }
+      agent { label 'built-in' }
       steps {
         git url: 'https://github.com/tpqoflsh/html-template.git', branch: 'master'
       }
     }
     stage('Build & Push Docker Image') {
-      agent { label 'jenkins-controller' }
+      agent { label 'built-in' }
       steps {
         withCredentials([usernamePassword(credentialsId: 'jdp-acr', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS')]) {
             sh """
@@ -34,7 +34,7 @@ pipeline {
       }
     }
     stage('Update YAML & Push') {
-      agent { label 'jenkins-controller' }
+      agent { label 'built-in' }
       steps {
         withCredentials([
             usernamePassword(credentialsId: 'jdp-acr', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS'),
