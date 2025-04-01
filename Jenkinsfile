@@ -17,10 +17,15 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'jdp-acr', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS')]) {
             sh """
+              az acr login --name $ACR_NAME
+              az acr build --registry $ACR_NAME --image $IMAGE_NAME:$IMAGE_TAG .
+            """
+            
+            /*"""
               echo $ACR_PASS | docker login $ACR_NAME -u $ACR_USER --password-stdin
               docker build -t $ACR_NAME/$IMAGE_NAME:$IMAGE_TAG .
               docker push $ACR_NAME/$IMAGE_NAME:$IMAGE_TAG
-            """
+            """*/
         }
       }
     }
