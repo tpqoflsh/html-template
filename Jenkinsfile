@@ -7,11 +7,12 @@ kind: Pod
 spec:
   containers:
   - name: kaniko
-    image: bitnami/kaniko:latest
+    image: jdptest.azurecr.io/jenkins-kaniko-agent:latest
     command:
-    - sleep
+    - bash
     args:
-    - "999999"
+    - -c
+    - sleep infinity
     volumeMounts:
     - name: kaniko-secret
       mountPath: /kaniko/.docker
