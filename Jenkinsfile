@@ -7,7 +7,7 @@ kind: Pod
 spec:
   containers:
   - name: kaniko
-    image: jdptest.azurecr.io/jenkins-kaniko-agent:latest
+    image: jdptest.azurecr.io/jdp-kaniko:v1
     command:
     - bash
     args:
