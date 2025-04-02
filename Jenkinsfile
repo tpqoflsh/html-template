@@ -8,11 +8,6 @@ spec:
   containers:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:latest
-    command:
-    - /bin/sh
-    args:
-    - -c
-    - "while true; do sleep 60; done"
     volumeMounts:
     - name: kaniko-secret
       mountPath: /kaniko/.docker
