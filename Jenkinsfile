@@ -49,9 +49,9 @@ spec:
           sh """
             echo "jdp"
             /kaniko/executor \
-              --dockerfile=Dockerfile \
-              --context=dir:///workspace/${JOB_NAME} \
-              --destination=$ACR_NAME/$IMAGE_NAME:$IMAGE_TAG
+              --dockerfile="Dockerfile" \
+              --context="dir:///workspace/${JOB_NAME}" \
+              --destination="$ACR_NAME/$IMAGE_NAME:$IMAGE_TAG" \
               --verbosity=info
           """
         }
