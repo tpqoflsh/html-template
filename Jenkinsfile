@@ -5,6 +5,8 @@ pipeline {
 apiVersion: v1
 kind: Pod
 spec:
+  imagePullSecrets:
+  - name: acr-secret
   containers:
   - name: kaniko
     image: jdptest.azurecr.io/jdp-kaniko:v1
