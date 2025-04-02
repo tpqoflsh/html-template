@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+  agent { label 'built-in' }
    
   environment {
     ACR_NAME = "jdptest.azurecr.io"
