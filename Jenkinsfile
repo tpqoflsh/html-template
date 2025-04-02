@@ -1,5 +1,5 @@
 pipeline {
-  agent none
+  agent { label 'built-in' }
    
   environment {
     ACR_NAME = "jdptest.azurecr.io"
@@ -10,14 +10,12 @@ pipeline {
 
   stages {
     stage('Checkout') {
-      agent { label 'built-in' }  // 또는 'master', 'built-in' 환경에 맞게
       steps {
         git url: 'https://github.com/tpqoflsh/html-template.git', branch: 'master'
       }
     }
 
-    stage('Build & Push Docker Image') {
-      agent { label 'built-in' }
+    stage('Build & Push Docker Image') { 
       steps {
         withCredentials([usernamePassword(credentialsId: 'jdp-acr', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS')]) {
           sh """
@@ -30,7 +28,6 @@ pipeline {
     }
 
     stage('Update YAML & Push') {
-      agent { label 'built-in' }
       steps {
         withCredentials([
           usernamePassword(credentialsId: 'jdp-acr', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS'),
