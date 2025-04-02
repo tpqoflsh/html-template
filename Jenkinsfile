@@ -6,37 +6,21 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: shell
-    image: alpine:latest
-    command:
-    - /bin/sh
-    args:
-    - -c
-    - sleep 99999
-    tty: true
-    volumeMounts:
-    - name: kaniko-secret
-      mountPath: /kaniko/.docker
-
   - name: kaniko
-    image: gcr.io/kaniko-project/executor:latest
-    command: ["/kaniko/executor"]
+    image: bitnami/kaniko:latest
+    command:
+    - sleep
     args:
-    - --dockerfile=/workspace/\$(JOB_NAME)/Dockerfile
-    - --context=dir:///workspace/\$(JOB_NAME)
-    - --destination=jdptest.azurecr.io/jdp-web-app:\$(BUILD_NUMBER)
-    - --verbosity=debug
+    - "999999"
     volumeMounts:
     - name: kaniko-secret
       mountPath: /kaniko/.docker
-
   volumes:
   - name: kaniko-secret
     projected:
       sources:
       - secret:
           name: acr-secret
-
   restartPolicy: Never
 """
     }
