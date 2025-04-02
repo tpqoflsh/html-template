@@ -42,8 +42,9 @@ spec:
           sh """
             /kaniko/executor \
               --dockerfile=Dockerfile \
-              --context=`pwd` \
+              --context=dir:///workspace/${JOB_NAME} \
               --destination=$ACR_NAME/$IMAGE_NAME:$IMAGE_TAG
+              --verbosity=info
           """
         }
       }
