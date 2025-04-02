@@ -35,7 +35,7 @@ spec:
     projected:
       sources:
       - secret:
-          name: acr-docker-config
+          name: acr-secret
 
   restartPolicy: Never
 """
