@@ -9,10 +9,9 @@ spec:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:latest
     command:
-    - /busybox/sh
+    - /kaniko/executor
     args:
-    - -c
-    - "while true; do sleep 30; done"
+    - --help
     volumeMounts:
     - name: kaniko-secret
       mountPath: /kaniko/.docker
