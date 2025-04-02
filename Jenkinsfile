@@ -47,7 +47,6 @@ spec:
       steps {
         container('kaniko') {
           sh """
-            echo "jdp"
             /kaniko/executor \
               --dockerfile="Dockerfile" \
               --context="dir:///workspace/${JOB_NAME}" \
