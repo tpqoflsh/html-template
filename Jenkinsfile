@@ -9,12 +9,11 @@ spec:
   - name: acr-secret
   containers:
   - name: kaniko
-    image: jdptest.azurecr.io/jdp-kaniko:v1
+    image: jdptest.azurecr.io/jdp-kaniko:v2
     command:
-    - bash
+    - /bin/sleep
     args:
-    - -c
-    - sleep infinity
+    - "999999"
     volumeMounts:
     - name: kaniko-secret
       mountPath: /kaniko/.docker
